@@ -139,25 +139,23 @@ def create_book_matrix(orders):
     return book_matrix
 
 def perform_association_analysis(book_matrix):
-    # 根据数据集大小动态调整支持度
-    min_support = max(0.005, 3 / len(book_matrix))  # 至少3个读者的组合
+    # 动态支持度设置
+    reader_count = len(book_matrix)
+    min_support = max(0.005, 3 / reader_count)  # 基础支持度
+    
+    # 根据数据集大小动态调整
+    if reader_count > 1000:
+        min_support = max(0.003, 2 / reader_count)
+    elif reader_count < 100:
+        min_support = max(0.01, 5 / reader_count)
     
     print(f"\n使用最小支持度: {min_support:.4f}")
     frequent_itemsets = apriori(book_matrix, 
                               min_support=min_support, 
                               use_colnames=True,
-                              max_len=2)  # 限制为2个项的组合
+                              max_len=2)
     
     print(f"找到 {len(frequent_itemsets)} 个频繁项集")
-    
-    if len(frequent_itemsets) == 0:
-        min_support = max(0.003, 2 / len(book_matrix))  # 降低支持度
-        print(f"尝试降低支持度至: {min_support:.4f}")
-        frequent_itemsets = apriori(book_matrix, 
-                                  min_support=min_support, 
-                                  use_colnames=True,
-                                  max_len=2)
-        print(f"找到 {len(frequent_itemsets)} 个频繁项集")
     
     if len(frequent_itemsets) == 0:
         raise ValueError("无法生成频繁项集")
@@ -166,13 +164,19 @@ def perform_association_analysis(book_matrix):
     rules_list = []
     for _, row in frequent_itemsets.iterrows():
         items = list(row['itemsets'])
-        if len(items) == 2:
+        if len(items) == 2:  # 只处理二项集
             support = row['support']
             for i in range(2):
                 antecedent = [items[i]]
                 consequent = [items[1-i]]
+                # 计算置信度
                 confidence = support / book_matrix[antecedent[0]].mean()
+                # 计算提升度
                 lift = support / (book_matrix[antecedent[0]].mean() * book_matrix[consequent[0]].mean())
+                
+                # 计算其他指标
+                consequent_support = book_matrix[consequent[0]].mean()
+                antecedent_support = book_matrix[antecedent[0]].mean()
                 
                 # 只添加提升度大于1的规则
                 if lift > 1:
@@ -181,7 +185,13 @@ def perform_association_analysis(book_matrix):
                         'consequents': consequent,
                         'support': support,
                         'confidence': confidence,
-                        'lift': lift
+                        'lift': lift,
+                        'antecedent_support': antecedent_support,
+                        'consequent_support': consequent_support,
+                        'conviction': (1 - consequent_support) / (1 - confidence) if confidence < 1 else float('inf'),
+                        'zhangs_metric': (confidence - consequent_support) / (1 - consequent_support) if consequent_support != 1 else 1,
+                        'jaccard': support / (antecedent_support + consequent_support - support),
+                        'kulczynski': (confidence + support/consequent_support)/2
                     })
     
     # 创建规则DataFrame
@@ -191,17 +201,18 @@ def perform_association_analysis(book_matrix):
         raise ValueError("无法生成有效的关联规则")
     
     # 过滤规则
-    min_confidence = 0.15  # 降低最小置信度
+    min_confidence = 0.15  # 最小置信度
     rules = rules[rules['confidence'] >= min_confidence]
     
-    # 按提升度排序
-    rules = rules.sort_values('lift', ascending=False)
-    
-    print(f"生成了 {len(rules)} 条关联规则")
+    # 按多个指标排序
+    rules = rules.sort_values(['lift', 'confidence', 'support'], 
+                            ascending=[False, False, False])
     
     # 保存关联规则
     rules.to_csv('F:/Project/python_visualization/book/dataset/association_rules.csv', 
                 index=False, encoding='utf-8-sig')
+    
+    print(f"生成了 {len(rules)} 条关联规则")
     
     return frequent_itemsets, rules
 
@@ -229,9 +240,12 @@ def plot_borrow_distribution(orders):
     plt.show()
 
 def visualize_rules(rules, top_n=10):
-    # 选择提升度最高的前 top_n 条规则
-    top_rules = rules.nlargest(top_n, 'lift')
+    # 创建多个子图
+    fig = plt.figure(figsize=(20, 15))
     
+    # 1. 网络图
+    plt.subplot(2, 2, 1)
+    top_rules = rules.nlargest(top_n, 'lift')
     G = nx.DiGraph()
     
     for _, row in top_rules.iterrows():
@@ -239,57 +253,184 @@ def visualize_rules(rules, top_n=10):
         consequent = '\n'.join(row['consequents'])
         G.add_edge(antecedent, consequent, weight=row['lift'])
     
-    plt.figure(figsize=(15, 10))
     pos = nx.spring_layout(G, k=2)
-    
-    # 绘制节点
-    nx.draw_networkx_nodes(G, pos, node_size=3000, 
-                          node_color='lightblue', 
-                          alpha=0.7)
-    
-    # 绘制边
+    nx.draw_networkx_nodes(G, pos, node_size=2000, 
+                          node_color='lightblue', alpha=0.7)
     nx.draw_networkx_edges(G, pos, edge_color='gray',
-                          arrowsize=20,
-                          arrowstyle='->')
+                          arrowsize=20, arrowstyle='->')
+    nx.draw_networkx_labels(G, pos, font_size=8)
+    plt.title('关联规则网络图', fontsize=12)
     
-    # 获取当前字体
-    current_font = plt.rcParams['font.sans-serif'][0]
+    # 2. 指标分布图
+    plt.subplot(2, 2, 2)
+    sns.boxplot(data=rules[['support', 'confidence', 'lift']])
+    plt.title('规则指标分布', fontsize=12)
+    plt.xticks(rotation=45)
     
-    # 绘制标签
-    nx.draw_networkx_labels(G, pos, font_size=8,
-                          font_family=current_font)
+    # 3. 散点图：支持度vs提升度
+    plt.subplot(2, 2, 3)
+    plt.scatter(rules['support'], rules['lift'], alpha=0.5)
+    plt.xlabel('支持度')
+    plt.ylabel('提升度')
+    plt.title('支持度vs提升度', fontsize=12)
     
-    # 绘制边标签
-    edge_labels = {(u, v): f"lift: {d['weight']:.2f}" 
-                  for u, v, d in G.edges(data=True)}
-    nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels,
-                               font_size=8,
-                               font_family=current_font)
+    # 4. 散点图：置信度vs提升度
+    plt.subplot(2, 2, 4)
+    plt.scatter(rules['confidence'], rules['lift'], alpha=0.5)
+    plt.xlabel('置信度')
+    plt.ylabel('提升度')
+    plt.title('置信度vs提升度', fontsize=12)
     
-    plt.title('图书借阅关联规则网络图', fontsize=14, pad=20)
-    plt.axis('off')
     plt.tight_layout()
     plt.show()
 
 def print_analysis_results(frequent_itemsets, rules):
-    if len(frequent_itemsets) > 0:
-        print("\n频繁项集示例（前5个）：")
-        print(frequent_itemsets.head())
-        print(f"\n共找到 {len(frequent_itemsets)} 个频繁项集")
+    print("\n=== 关联规则分析结果 ===")
+    print(f"共找到 {len(frequent_itemsets)} 个频繁项集")
+    print(f"生成了 {len(rules)} 条关联规则")
     
-    if len(rules) > 0:
-        print("\n关联规则示例（前5个）：")
-        print(rules.head())
-        print(f"\n共找到 {len(rules)} 条关联规则")
-        
-        print("\n关联规则统计：")
-        print(f"平均置信度：{rules['confidence'].mean():.3f}")
-        print(f"平均提升度：{rules['lift'].mean():.3f}")
-        
-        # 输出最强的关联规则
-        print("\n最强关联规则（按提升度排序）：")
-        top_rules = rules.nlargest(5, 'lift')[['antecedents', 'consequents', 'support', 'confidence', 'lift']]
-        print(top_rules.to_string(index=False))
+    print("\n规则质量统计：")
+    metrics = ['support', 'confidence', 'lift', 'conviction', 
+              'zhangs_metric', 'jaccard', 'kulczynski']
+    
+    for metric in metrics:
+        print(f"{metric}:")
+        print(f"  最小值: {rules[metric].min():.4f}")
+        print(f"  最大值: {rules[metric].max():.4f}")
+        print(f"  平均值: {rules[metric].mean():.4f}")
+        print(f"  中位数: {rules[metric].median():.4f}")
+    
+    # 输出最强关联规则
+    print("\n最强关联规则（按多个指标排序）：")
+    columns = ['antecedents', 'consequents', 'support', 'confidence', 
+              'lift', 'conviction', 'zhangs_metric', 'jaccard']
+    print(rules[columns].head().to_string(index=False))
+
+def visualize_top_rules(rules, top_n=6):
+    """
+    创建一个热力图来展示最强关联规则的多个指标
+    """
+    # 选择要展示的指标
+    metrics = ['support', 'confidence', 'lift', 'conviction', 'zhangs_metric', 'jaccard']
+    
+    # 获取前 top_n 条规则
+    top_rules = rules.nlargest(top_n, 'lift')
+    
+    # 创建热力图数据
+    heatmap_data = top_rules[metrics].copy()
+    
+    # 处理 inf 值
+    heatmap_data = heatmap_data.replace([np.inf, -np.inf], np.nan)
+    heatmap_data = heatmap_data.fillna(heatmap_data.max().max())
+    
+    # 创建规则标签
+    rule_labels = [f"{' → '.join(map(str, row['antecedents'] + row['consequents']))}" 
+                  for _, row in top_rules.iterrows()]
+    
+    # 设置图形大小
+    plt.figure(figsize=(12, 8))
+    
+    # 创建热力图
+    sns.heatmap(heatmap_data, 
+                annot=True,          # 显示数值
+                fmt='.2f',          # 数值格式
+                cmap='YlOrRd',      # 色彩方案
+                xticklabels=metrics,
+                yticklabels=rule_labels)
+    
+    plt.title('最强关联规则的多维度分析', fontsize=14, pad=20)
+    plt.xlabel('评估指标', fontsize=12)
+    plt.ylabel('关联规则', fontsize=12)
+    
+    # 调整布局以防止标签被截断
+    plt.tight_layout()
+    plt.show()
+
+    # 创建条形图比较不同规则的提升度
+    plt.figure(figsize=(12, 6))
+    colors = sns.color_palette("husl", n_colors=len(top_rules))
+    
+    bars = plt.bar(range(len(top_rules)), top_rules['lift'], color=colors)
+    
+    # 添加数值标签
+    for bar in bars:
+        height = bar.get_height()
+        plt.text(bar.get_x() + bar.get_width()/2., height,
+                f'{height:.2f}',
+                ha='center', va='bottom')
+    
+    plt.title('最强关联规则的提升度比较', fontsize=14)
+    plt.xlabel('规则', fontsize=12)
+    plt.ylabel('提升度', fontsize=12)
+    plt.xticks(range(len(top_rules)), 
+               [f"规则 {i+1}" for i in range(len(top_rules))],
+               rotation=45)
+    
+    # 添加规则说明
+    rule_text = "\n".join([f"规则 {i+1}: {label}" 
+                          for i, label in enumerate(rule_labels)])
+    plt.figtext(1.02, 0.5, rule_text, 
+                fontsize=10, 
+                bbox=dict(facecolor='white', alpha=0.8))
+    
+    plt.tight_layout()
+    plt.show()
+
+def visualize_rules_table(rules, top_n=5):
+    """
+    创建一个可视化表格展示最强关联规则
+    """
+    # 选择前 top_n 条规则和需要展示的列
+    top_rules = rules.nlargest(top_n, 'lift')
+    columns = ['antecedents', 'consequents', 'support', 'confidence', 'lift']
+    
+    # 创建图形
+    fig, ax = plt.subplots(figsize=(15, 5))
+    ax.axis('tight')
+    ax.axis('off')
+    
+    # 准备表格数据
+    table_data = []
+    for _, row in top_rules.iterrows():
+        table_data.append([
+            ' → '.join(map(str, row['antecedents'])),
+            ' → '.join(map(str, row['consequents'])),
+            f"{row['support']:.4f}",
+            f"{row['confidence']:.2f}",
+            f"{row['lift']:.2f}"
+        ])
+    
+    # 创建表格
+    table = ax.table(
+        cellText=table_data,
+        colLabels=['前项', '后项', '支持度', '置信度', '提升度'],
+        cellLoc='center',
+        loc='center',
+        colWidths=[0.3, 0.3, 0.1, 0.1, 0.1]
+    )
+    
+    # 设置表格样式
+    table.auto_set_font_size(False)
+    table.set_fontsize(9)
+    table.scale(1.2, 1.8)
+    
+    # 设置标题
+    plt.title('最强关联规则 Top 5', pad=20, fontsize=14)
+    
+    # 设置单元格颜色
+    # 设置表头颜色
+    for j in range(len(columns)):
+        table[(0, j)].set_facecolor('#4472C4')
+        table[(0, j)].set_text_props(color='white')
+    
+    # 设置数据行的交替颜色
+    for i in range(len(table_data)):
+        for j in range(len(columns)):
+            if i % 2:
+                table[(i+1, j)].set_facecolor('#D9E1F2')
+    
+    plt.tight_layout()
+    plt.show()
 
 def main():
     # 检查中文字体
@@ -344,7 +485,13 @@ def main():
         print("\n置信度最高的关联规则：")
         print(rules.nlargest(5, 'confidence')[['antecedents', 'consequents', 'confidence', 'lift']])
         
-        # 可视化关联规则
+        # 添加表格可视化
+        visualize_rules_table(rules)
+        
+        # 添加新的可视化
+        visualize_top_rules(rules)
+        
+        # 原有的可视化
         visualize_rules(rules, top_n=10)
     else:
         print("没有生成任何关联规则。")
