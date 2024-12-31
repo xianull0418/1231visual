@@ -1,0 +1,1060 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>军事新闻词云图</title>
+    <style>
+        body {
+            position: relative;
+            background-image: url('F:/Project/python_visualization/Wordcloud\词云图.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            width: 100%;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            position: relative;
+            width: 7087px;
+            height: 3543px;
+            margin: 0 auto;
+        }
+        .word {
+            position: absolute;
+            color: rgba(0, 0, 0, 0.8);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .word:hover {
+            transform: scale(1.2);
+            color: #ff4444;
+            z-index: 1000;
+        }
+        .tooltip {
+            visibility: hidden;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 10px;
+            position: absolute;
+            z-index: 1001;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+        }
+        .word:hover .tooltip {
+            visibility: visible;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+    <div class="word" style="left: 156px; top: 4569px; font-size: 100px;">
+        美国
+        <span class="tooltip">出现次数: 100</span>
+    </div>
+    
+    <div class="word" style="left: 698px; top: 3493px; font-size: 88px;">
+        中
+        <span class="tooltip">出现次数: 75</span>
+    </div>
+    
+    <div class="word" style="left: 2670px; top: 5286px; font-size: 88px;">
+        新
+        <span class="tooltip">出现次数: 75</span>
+    </div>
+    
+    <div class="word" style="left: 181px; top: 3691px; font-size: 84px;">
+        发展
+        <span class="tooltip">出现次数: 68</span>
+    </div>
+    
+    <div class="word" style="left: 3020px; top: 1904px; font-size: 84px;">
+        合作
+        <span class="tooltip">出现次数: 68</span>
+    </div>
+    
+    <div class="word" style="left: 3263px; top: 6163px; font-size: 84px;">
+        海军
+        <span class="tooltip">出现次数: 68</span>
+    </div>
+    
+    <div class="word" style="left: 2204px; top: 6755px; font-size: 84px;">
+        俄
+        <span class="tooltip">出现次数: 68</span>
+    </div>
+    
+    <div class="word" style="left: 43px; top: 4752px; font-size: 80px;">
+        中国
+        <span class="tooltip">出现次数: 62</span>
+    </div>
+    
+    <div class="word" style="left: 2120px; top: 333px; font-size: 76px;">
+        和平
+        <span class="tooltip">出现次数: 56</span>
+    </div>
+    
+    <div class="word" style="left: 1698px; top: 5566px; font-size: 76px;">
+        台湾
+        <span class="tooltip">出现次数: 56</span>
+    </div>
+    
+    <div class="word" style="left: 1768px; top: 646px; font-size: 76px;">
+        年
+        <span class="tooltip">出现次数: 56</span>
+    </div>
+    
+    <div class="word" style="left: 259px; top: 2156px; font-size: 76px;">
+        两国
+        <span class="tooltip">出现次数: 56</span>
+    </div>
+    
+    <div class="word" style="left: 1912px; top: 4230px; font-size: 72px;">
+        两岸
+        <span class="tooltip">出现次数: 50</span>
+    </div>
+    
+    <div class="word" style="left: 3165px; top: 4600px; font-size: 72px;">
+        能力
+        <span class="tooltip">出现次数: 50</span>
+    </div>
+    
+    <div class="word" style="left: 2908px; top: 2707px; font-size: 72px;">
+        应该
+        <span class="tooltip">出现次数: 50</span>
+    </div>
+    
+    <div class="word" style="left: 3352px; top: 292px; font-size: 72px;">
+        国家
+        <span class="tooltip">出现次数: 50</span>
+    </div>
+    
+    <div class="word" style="left: 439px; top: 561px; font-size: 72px;">
+        推动
+        <span class="tooltip">出现次数: 50</span>
+    </div>
+    
+    <div class="word" style="left: 1929px; top: 3471px; font-size: 72px;">
+        人民
+        <span class="tooltip">出现次数: 50</span>
+    </div>
+    
+    <div class="word" style="left: 1843px; top: 4857px; font-size: 68px;">
+        表示
+        <span class="tooltip">出现次数: 43</span>
+    </div>
+    
+    <div class="word" style="left: 3401px; top: 1945px; font-size: 68px;">
+        不断
+        <span class="tooltip">出现次数: 43</span>
+    </div>
+    
+    <div class="word" style="left: 3258px; top: 680px; font-size: 68px;">
+        方面
+        <span class="tooltip">出现次数: 43</span>
+    </div>
+    
+    <div class="word" style="left: 2633px; top: 1801px; font-size: 68px;">
+        舰
+        <span class="tooltip">出现次数: 43</span>
+    </div>
+    
+    <div class="word" style="left: 1914px; top: 6442px; font-size: 63px;">
+        战舰
+        <span class="tooltip">出现次数: 37</span>
+    </div>
+    
+    <div class="word" style="left: 2821px; top: 5465px; font-size: 63px;">
+        帅化民
+        <span class="tooltip">出现次数: 37</span>
+    </div>
+    
+    <div class="word" style="left: 316px; top: 2804px; font-size: 63px;">
+        商业
+        <span class="tooltip">出现次数: 37</span>
+    </div>
+    
+    <div class="word" style="left: 1589px; top: 4792px; font-size: 63px;">
+        中东
+        <span class="tooltip">出现次数: 37</span>
+    </div>
+    
+    <div class="word" style="left: 2932px; top: 5055px; font-size: 63px;">
+        习近平
+        <span class="tooltip">出现次数: 37</span>
+    </div>
+    
+    <div class="word" style="left: 3336px; top: 2043px; font-size: 63px;">
+        支队
+        <span class="tooltip">出现次数: 37</span>
+    </div>
+    
+    <div class="word" style="left: 3332px; top: 1566px; font-size: 58px;">
+        解放军
+        <span class="tooltip">出现次数: 31</span>
+    </div>
+    
+    <div class="word" style="left: 1245px; top: 813px; font-size: 58px;">
+        装备
+        <span class="tooltip">出现次数: 31</span>
+    </div>
+    
+    <div class="word" style="left: 2946px; top: 4085px; font-size: 58px;">
+        地区
+        <span class="tooltip">出现次数: 31</span>
+    </div>
+    
+    <div class="word" style="left: 1822px; top: 1470px; font-size: 58px;">
+        指出
+        <span class="tooltip">出现次数: 31</span>
+    </div>
+    
+    <div class="word" style="left: 2551px; top: 6036px; font-size: 58px;">
+        希望
+        <span class="tooltip">出现次数: 31</span>
+    </div>
+    
+    <div class="word" style="left: 579px; top: 3816px; font-size: 58px;">
+        复兴
+        <span class="tooltip">出现次数: 31</span>
+    </div>
+    
+    <div class="word" style="left: 3482px; top: 136px; font-size: 58px;">
+        尊重
+        <span class="tooltip">出现次数: 31</span>
+    </div>
+    
+    <div class="word" style="left: 1937px; top: 2574px; font-size: 58px;">
+        周年
+        <span class="tooltip">出现次数: 31</span>
+    </div>
+    
+    <div class="word" style="left: 1273px; top: 6210px; font-size: 58px;">
+        战略
+        <span class="tooltip">出现次数: 31</span>
+    </div>
+    
+    <div class="word" style="left: 70px; top: 3108px; font-size: 58px;">
+        领域
+        <span class="tooltip">出现次数: 31</span>
+    </div>
+    
+    <div class="word" style="left: 2788px; top: 2975px; font-size: 58px;">
+        驱逐舰
+        <span class="tooltip">出现次数: 31</span>
+    </div>
+    
+    <div class="word" style="left: 1723px; top: 5952px; font-size: 58px;">
+        编队
+        <span class="tooltip">出现次数: 31</span>
+    </div>
+    
+    <div class="word" style="left: 2296px; top: 4012px; font-size: 52px;">
+        观点
+        <span class="tooltip">出现次数: 25</span>
+    </div>
+    
+    <div class="word" style="left: 1331px; top: 3546px; font-size: 52px;">
+        舰艇
+        <span class="tooltip">出现次数: 25</span>
+    </div>
+    
+    <div class="word" style="left: 2566px; top: 1210px; font-size: 52px;">
+        作战
+        <span class="tooltip">出现次数: 25</span>
+    </div>
+    
+    <div class="word" style="left: 1505px; top: 1962px; font-size: 52px;">
+        应对
+        <span class="tooltip">出现次数: 25</span>
+    </div>
+    
+    <div class="word" style="left: 1012px; top: 1035px; font-size: 52px;">
+        情况
+        <span class="tooltip">出现次数: 25</span>
+    </div>
+    
+    <div class="word" style="left: 2732px; top: 4838px; font-size: 52px;">
+        加强
+        <span class="tooltip">出现次数: 25</span>
+    </div>
+    
+    <div class="word" style="left: 4px; top: 2853px; font-size: 52px;">
+        大陆
+        <span class="tooltip">出现次数: 25</span>
+    </div>
+    
+    <div class="word" style="left: 591px; top: 4032px; font-size: 52px;">
+        交流
+        <span class="tooltip">出现次数: 25</span>
+    </div>
+    
+    <div class="word" style="left: 1560px; top: 5942px; font-size: 52px;">
+        方式
+        <span class="tooltip">出现次数: 25</span>
+    </div>
+    
+    <div class="word" style="left: 2888px; top: 922px; font-size: 52px;">
+        共同
+        <span class="tooltip">出现次数: 25</span>
+    </div>
+    
+    <div class="word" style="left: 2471px; top: 2491px; font-size: 52px;">
+        船团
+        <span class="tooltip">出现次数: 25</span>
+    </div>
+    
+    <div class="word" style="left: 2701px; top: 5567px; font-size: 52px;">
+        世界
+        <span class="tooltip">出现次数: 25</span>
+    </div>
+    
+    <div class="word" style="left: 2335px; top: 6304px; font-size: 52px;">
+        —
+        <span class="tooltip">出现次数: 25</span>
+    </div>
+    
+    <div class="word" style="left: 2691px; top: 336px; font-size: 52px;">
+        中方
+        <span class="tooltip">出现次数: 25</span>
+    </div>
+    
+    <div class="word" style="left: 1081px; top: 3146px; font-size: 52px;">
+        外长
+        <span class="tooltip">出现次数: 25</span>
+    </div>
+    
+    <div class="word" style="left: 1082px; top: 296px; font-size: 52px;">
+        中东国家
+        <span class="tooltip">出现次数: 25</span>
+    </div>
+    
+    <div class="word" style="left: 3474px; top: 688px; font-size: 52px;">
+        一年
+        <span class="tooltip">出现次数: 25</span>
+    </div>
+    
+    <div class="word" style="left: 2645px; top: 4869px; font-size: 52px;">
+        持续
+        <span class="tooltip">出现次数: 25</span>
+    </div>
+    
+    <div class="word" style="left: 354px; top: 2225px; font-size: 52px;">
+        继续
+        <span class="tooltip">出现次数: 25</span>
+    </div>
+    
+    <div class="word" style="left: 1181px; top: 934px; font-size: 52px;">
+        稳定
+        <span class="tooltip">出现次数: 25</span>
+    </div>
+    
+    <div class="word" style="left: 3250px; top: 2247px; font-size: 52px;">
+        新年
+        <span class="tooltip">出现次数: 25</span>
+    </div>
+    
+    <div class="word" style="left: 184px; top: 4023px; font-size: 52px;">
+        总统
+        <span class="tooltip">出现次数: 25</span>
+    </div>
+    
+    <div class="word" style="left: 1184px; top: 3982px; font-size: 52px;">
+        75
+        <span class="tooltip">出现次数: 25</span>
+    </div>
+    
+    <div class="word" style="left: 2773px; top: 5875px; font-size: 52px;">
+        重要
+        <span class="tooltip">出现次数: 25</span>
+    </div>
+    
+    <div class="word" style="left: 2944px; top: 1170px; font-size: 52px;">
+        保持
+        <span class="tooltip">出现次数: 25</span>
+    </div>
+    
+    <div class="word" style="left: 2361px; top: 6400px; font-size: 52px;">
+        更
+        <span class="tooltip">出现次数: 25</span>
+    </div>
+    
+    <div class="word" style="left: 522px; top: 3619px; font-size: 52px;">
+        双方
+        <span class="tooltip">出现次数: 25</span>
+    </div>
+    
+    <div class="word" style="left: 2064px; top: 3841px; font-size: 52px;">
+        艘
+        <span class="tooltip">出现次数: 25</span>
+    </div>
+    
+    <div class="word" style="left: 3471px; top: 5615px; font-size: 46px;">
+        媒体
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 318px; top: 1114px; font-size: 46px;">
+        月
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 619px; top: 4541px; font-size: 46px;">
+        军事实力
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 2292px; top: 1909px; font-size: 46px;">
+        差距
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 2368px; top: 451px; font-size: 46px;">
+        包括
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 2313px; top: 737px; font-size: 46px;">
+        现代化
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 522px; top: 4886px; font-size: 46px;">
+        提高
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 85px; top: 5346px; font-size: 46px;">
+        认为
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 1212px; top: 5738px; font-size: 46px;">
+        不要
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 1159px; top: 6052px; font-size: 46px;">
+        解决问题
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 853px; top: 4258px; font-size: 46px;">
+        军事
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 1395px; top: 7004px; font-size: 46px;">
+        造船业
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 1433px; top: 4790px; font-size: 46px;">
+        占
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 2868px; top: 2305px; font-size: 46px;">
+        造船
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 983px; top: 6458px; font-size: 46px;">
+        货运
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 3003px; top: 6459px; font-size: 46px;">
+        商船
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 1620px; top: 683px; font-size: 46px;">
+        建造
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 2596px; top: 2301px; font-size: 46px;">
+        安全
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 318px; top: 753px; font-size: 46px;">
+        没有
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 967px; top: 4167px; font-size: 46px;">
+        王毅
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 1227px; top: 239px; font-size: 46px;">
+        作出
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 2967px; top: 5851px; font-size: 46px;">
+        文化
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 3226px; top: 2680px; font-size: 46px;">
+        对话
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 2943px; top: 6888px; font-size: 46px;">
+        过去
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 1059px; top: 2287px; font-size: 46px;">
+        互信
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 1387px; top: 3276px; font-size: 46px;">
+        维护
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 1564px; top: 736px; font-size: 46px;">
+        互致
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 395px; top: 3940px; font-size: 46px;">
+        总理
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 2946px; top: 899px; font-size: 46px;">
+        建交
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 1184px; top: 2229px; font-size: 46px;">
+        中俄关系
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 1941px; top: 1820px; font-size: 46px;">
+        双边关系
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 1932px; top: 6164px; font-size: 46px;">
+        国际
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 2841px; top: 1879px; font-size: 46px;">
+        达成
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 3450px; top: 1841px; font-size: 46px;">
+        共识
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 2905px; top: 1618px; font-size: 46px;">
+        引领
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 717px; top: 5419px; font-size: 46px;">
+        协作
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 3012px; top: 2949px; font-size: 46px;">
+        进一步
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 1102px; top: 2748px; font-size: 46px;">
+        全面
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 3354px; top: 6716px; font-size: 46px;">
+        主席
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 1325px; top: 1100px; font-size: 46px;">
+        俄中
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 502px; top: 5446px; font-size: 46px;">
+        延安
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 252px; top: 871px; font-size: 46px;">
+        广州
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 3377px; top: 3701px; font-size: 46px;">
+        现在
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 2249px; top: 157px; font-size: 46px;">
+        成
+        <span class="tooltip">出现次数: 18</span>
+    </div>
+    
+    <div class="word" style="left: 55px; top: 1969px; font-size: 38px;">
+        感慨
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 779px; top: 4186px; font-size: 38px;">
+        几乎
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 3034px; top: 1395px; font-size: 38px;">
+        多型
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 234px; top: 1996px; font-size: 38px;">
+        航展
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 223px; top: 539px; font-size: 38px;">
+        无人
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 1304px; top: 1440px; font-size: 38px;">
+        引发
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 2829px; top: 5061px; font-size: 38px;">
+        称
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 3429px; top: 3326px; font-size: 38px;">
+        绝对优势
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 1239px; top: 350px; font-size: 38px;">
+        台海
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 920px; top: 5689px; font-size: 38px;">
+        拥有
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 1729px; top: 5200px; font-size: 38px;">
+        广泛
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 1299px; top: 2298px; font-size: 38px;">
+        清醒
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 579px; top: 6815px; font-size: 38px;">
+        认识
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 2447px; top: 6269px; font-size: 38px;">
+        现实
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 2329px; top: 4316px; font-size: 38px;">
+        抱
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 1189px; top: 1332px; font-size: 38px;">
+        幻想
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 2079px; top: 5411px; font-size: 38px;">
+        沟通
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 1464px; top: 2716px; font-size: 38px;">
+        解决
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 2789px; top: 4881px; font-size: 38px;">
+        问题
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 1372px; top: 5324px; font-size: 38px;">
+        民众
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 1400px; top: 814px; font-size: 38px;">
+        能够
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 1811px; top: 5411px; font-size: 38px;">
+        实现
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 3182px; top: 1807px; font-size: 38px;">
+        建设
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 3029px; top: 1028px; font-size: 38px;">
+        威胁
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 2407px; top: 4444px; font-size: 38px;">
+        主导地位
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 2822px; top: 4257px; font-size: 38px;">
+        海洋
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 1118px; top: 3266px; font-size: 38px;">
+        华尔街日报
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 3370px; top: 3927px; font-size: 38px;">
+        12
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 3389px; top: 4616px; font-size: 38px;">
+        日
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 1630px; top: 493px; font-size: 38px;">
+        商船队
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 1716px; top: 6614px; font-size: 38px;">
+        如今
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 679px; top: 2334px; font-size: 38px;">
+        全球
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 2002px; top: 74px; font-size: 38px;">
+        船队
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 3253px; top: 4067px; font-size: 38px;">
+        尝试
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 3px; top: 256px; font-size: 38px;">
+        ·
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 3068px; top: 399px; font-size: 38px;">
+        历史
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 2318px; top: 1521px; font-size: 38px;">
+        庞大
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 2483px; top: 6677px; font-size: 38px;">
+        成功
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 889px; top: 3288px; font-size: 38px;">
+        海上
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 3352px; top: 484px; font-size: 38px;">
+        力量
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 1195px; top: 2453px; font-size: 38px;">
+        里
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 1073px; top: 6405px; font-size: 38px;">
+        第一艘
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 2490px; top: 6852px; font-size: 38px;">
+        已经
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 2468px; top: 4913px; font-size: 38px;">
+        外交部
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 1018px; top: 5829px; font-size: 38px;">
+        进程
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 2114px; top: 4027px; font-size: 38px;">
+        伊朗
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 32px; top: 1px; font-size: 38px;">
+        毛宁
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 615px; top: 1250px; font-size: 38px;">
+        中东问题
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 2732px; top: 3603px; font-size: 38px;">
+        主权
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 698px; top: 454px; font-size: 38px;">
+        领土完整
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 2808px; top: 2093px; font-size: 38px;">
+        停火
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 2341px; top: 205px; font-size: 38px;">
+        政治
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 2667px; top: 138px; font-size: 38px;">
+        加沙
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 2364px; top: 1010px; font-size: 38px;">
+        促进
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 2512px; top: 2253px; font-size: 38px;">
+        之间
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 3411px; top: 3233px; font-size: 38px;">
+        和解
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 2563px; top: 4257px; font-size: 38px;">
+        北京
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 439px; top: 6288px; font-size: 38px;">
+        联合国
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 1785px; top: 750px; font-size: 38px;">
+        多边
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 742px; top: 6380px; font-size: 38px;">
+        支持
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 816px; top: 3181px; font-size: 38px;">
+        增进
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 2164px; top: 4854px; font-size: 38px;">
+        道路
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 346px; top: 1282px; font-size: 38px;">
+        元首
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 3122px; top: 6613px; font-size: 38px;">
+        贺电
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 3186px; top: 3732px; font-size: 38px;">
+        俄罗斯
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 1873px; top: 5069px; font-size: 38px;">
+        致以
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 2225px; top: 6310px; font-size: 38px;">
+        会晤
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 3354px; top: 5003px; font-size: 38px;">
+        高水平
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 1408px; top: 1327px; font-size: 38px;">
+        两
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 1729px; top: 401px; font-size: 38px;">
+        国
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 879px; top: 6035px; font-size: 38px;">
+        顺利
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 3366px; top: 6430px; font-size: 38px;">
+        开启
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 3191px; top: 5522px; font-size: 38px;">
+        金砖
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 3478px; top: 2104px; font-size: 38px;">
+        上海
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 965px; top: 1694px; font-size: 38px;">
+        组织
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 1131px; top: 847px; font-size: 38px;">
+        工作
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 2032px; top: 5268px; font-size: 38px;">
+        贡献
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 2258px; top: 1199px; font-size: 38px;">
+        即将
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 112px; top: 6286px; font-size: 38px;">
+        推进
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 1869px; top: 196px; font-size: 38px;">
+        相信
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 229px; top: 2946px; font-size: 38px;">
+        迎来
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 1067px; top: 4062px; font-size: 38px;">
+        机遇
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 1338px; top: 2130px; font-size: 38px;">
+        我愿同
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 3049px; top: 4286px; font-size: 38px;">
+        密切
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 1386px; top: 731px; font-size: 38px;">
+        互利
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 3277px; top: 583px; font-size: 38px;">
+        时代
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 877px; top: 2905px; font-size: 38px;">
+        普京
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    <div class="word" style="left: 148px; top: 589px; font-size: 38px;">
+        成立
+        <span class="tooltip">出现次数: 12</span>
+    </div>
+    
+    </div>
+</body>
+</html>
